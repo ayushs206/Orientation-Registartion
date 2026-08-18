@@ -1,0 +1,19 @@
+{
+  "name": "iste-orientation-registration",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npx vite",
+    "build": "npx vite build",
+    "preview": "npx vite preview"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.48.1",
+    "canvas-confetti": "^1.9.4",
+    "lucide": "^0.475.0"
+  },
+  "devDependencies": {
+    "vite": "^6.1.0"
+  }
+}
