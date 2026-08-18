@@ -207,11 +207,7 @@ async function handleRegistrationSubmit(e) {
     regForm.reset();
   } catch (err) {
     console.error('Registration Submission Error:', err);
-    let errMsg = err.message || 'An error occurred during submission.';
-    if (errMsg.includes('Registrations_pkey')) {
-      errMsg = 'Database Sequence Sync Required: The primary key ID sequence in your Supabase table needs a reset. Please run the SQL reset script in your Supabase SQL Editor.';
-    }
-    formErrorMessage.innerText = errMsg;
+    formErrorMessage.innerText = err.message || 'An error occurred during submission.';
     formErrorMessage.style.display = 'block';
   } finally {
     submitBtn.disabled = false;
