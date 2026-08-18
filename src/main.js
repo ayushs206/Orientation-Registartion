@@ -155,6 +155,7 @@ async function handleRegistrationSubmit(e) {
   const phoneVal = fields.phone.el.value.trim();
 
   const payload = {
+    id: Date.now(),
     'Name': nameVal,
     'Admission Number': admissionVal,
     'E-Mail ID': emailVal,
@@ -164,13 +165,25 @@ async function handleRegistrationSubmit(e) {
   try {
     const supabase = getSupabaseClient();
     
-    // Try inserting into Registrations table
+    // Primary attempt: Insert with unique timestamp ID
     let { data, error } = await supabase
       .from(TABLE_NAME)
       .insert([payload]);
 
-    // Fallback if table name is lowercase in database
-    if (error && error.message && error.message.includes('relation "Registrations" does not exist')) {
+    // Fallback 1: If database rejects explicit id, insert without explicit id
+    if (error && error.message && (error.message.includes('id') || error.message.includes('pkey'))) {
+      const payloadWithoutId = {
+        'Name': nameVal,
+        'Admission Number': admissionVal,
+        'E-Mail ID': emailVal,
+        'Phone Number': phoneVal
+      };
+      const retry = await supabase.from(TABLE_NAME).insert([payloadWithoutId]);
+      error = retry.error;
+    }
+
+    // Fallback 2: Retry with lowercase table name 'registrations' if needed
+    if (error && error.message && error.message.includes('does not exist')) {
       const fallback = await supabase
         .from('registrations')
         .insert([payload]);
