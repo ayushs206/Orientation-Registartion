@@ -1,7 +1,7 @@
 import confetti from 'canvas-confetti';
 
 // API Endpoint configuration
-const API_URL = import.meta.env.VITE_API_URL || 'https://registration-portal-backend.onrender.com/api/register';
+const API_URL = import.meta.env.VITE_API_URL || 'https://registration-portal-backend.onrender.com/api/register/register';
 const EVENT_NAME = 'ISTE Orientation 2026';
 
 // DOM Elements - Form & Success
