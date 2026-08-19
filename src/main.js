@@ -128,7 +128,11 @@ async function handleRegistrationSubmit(e) {
     }
   } catch (err) {
     console.error('Registration Submission Error:', err);
-    formErrorMessage.innerText = err.message || 'Unable to connect to registration server.';
+    let errMsg = err.message || 'An error occurred during submission.';
+    if (errMsg.includes('Registrations_pkey')) {
+      errMsg = 'Database Sequence Sync Required: The primary key ID sequence in your Supabase table needs a reset. Please run the SQL reset script in your Supabase SQL Editor.';
+    }
+    formErrorMessage.innerText = errMsg;
     formErrorMessage.style.display = 'block';
   } finally {
     submitBtn.disabled = false;
